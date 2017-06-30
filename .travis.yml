@@ -1,5 +1,11 @@
 language: java
-sudo: false
+sudo: required
+services:
+  -docker
+
+before_install:
+  - docker pull sickp/alpine-sshd
+  - docker run --rm --publish=2222:22 sickp/alpine-sshd:7.5 -c "ssh-keygen -t ecdsa -b 384; exec /usr/sbin/sshd -D -e \"$@\""  
 jdk:
   - oraclejdk7
   - oraclejdk8
